@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -19,6 +20,7 @@ import su.nightexpress.excellentclaims.rules.evaluation.context.entity.EntityRem
 import su.nightexpress.excellentclaims.rules.evaluation.controller.AbstractEventController;
 import su.nightexpress.excellentclaims.rules.lang.RulesLang;
 import su.nightexpress.nightcore.util.LangUtil;
+import su.nightexpress.nightcore.util.Version;
 import su.nightexpress.nightcore.util.placeholder.CommonPlaceholders;
 
 @NullMarked
@@ -60,12 +62,28 @@ public class BlockEntityBreakController extends AbstractEventController {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onVehicleDestroy(VehicleDestroyEvent event) {
-        DamageSource source = event.getDamageSource();
-        if (!(source.getCausingEntity() instanceof Player player)) return;
+        Player actor;
+
+        if (Version.isAtLeast(Version.MC_26_1_2)) {
+            DamageSource source = event.getDamageSource();
+            if (!(source.getCausingEntity() instanceof Player player)) return;
+
+            actor = player;
+        }
+        else {
+            Entity attacker = event.getAttacker();
+            if (attacker instanceof Projectile projectile && projectile.getShooter() instanceof Player user) {
+                actor = user;
+            }
+            else if (attacker instanceof Player user) {
+                actor = user;
+            }
+            else return;
+        }
 
         Entity entity = event.getVehicle();
 
-        if (this.handleEntityRemove(player, entity) == EventState.DENY) {
+        if (this.handleEntityRemove(actor, entity) == EventState.DENY) {
             event.setCancelled(true);
         }
     }
