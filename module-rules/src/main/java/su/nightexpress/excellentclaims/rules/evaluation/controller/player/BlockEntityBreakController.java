@@ -50,12 +50,28 @@ public class BlockEntityBreakController extends AbstractEventController {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onHangingBreak(HangingBreakByEntityEvent event) {
-        DamageSource source = event.getDamageSource();
-        if (!(source.getCausingEntity() instanceof Player player)) return;
+        Player actor;
+
+        if (Version.isAtLeast(Version.MC_26_1_2)) {
+            DamageSource source = event.getDamageSource();
+            if (!(source.getCausingEntity() instanceof Player player)) return;
+
+            actor = player;
+        }
+        else {
+            Entity attacker = event.getRemover();
+            if (attacker instanceof Projectile projectile && projectile.getShooter() instanceof Player user) {
+                actor = user;
+            }
+            else if (attacker instanceof Player user) {
+                actor = user;
+            }
+            else return;
+        }
 
         Entity entity = event.getEntity();
 
-        if (this.handleEntityRemove(player, entity) == EventState.DENY) {
+        if (this.handleEntityRemove(actor, entity) == EventState.DENY) {
             event.setCancelled(true);
         }
     }
