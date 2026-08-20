@@ -46,7 +46,7 @@ public class ExcellentClaimsAPI implements ClaimsAPI {
 
     @Override
     public @Nullable Claim getPrioritizedClaim(Location location) {
-        return this.getPrioritizedClaim(location);
+        return this.claimRegistry.getPrioritizedClaim(location);
     }
 
     public Optional<RulesAPI> rules() {
