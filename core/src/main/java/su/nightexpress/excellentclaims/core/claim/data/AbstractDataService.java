@@ -21,7 +21,7 @@ public abstract class AbstractDataService<T extends Claim> implements DataServic
     protected final AbstractClaimIOService<T, ?> ioService;
     protected final ClaimRepository<T>           repository;
 
-    protected final Set<T> pendingSaves;
+    protected final Set<Identifier> pendingSaves;
 
     public AbstractDataService(AbstractClaimIOService<T, ?> ioService, ClaimRepository<T> repository) {
         this.ioService = ioService;
@@ -54,7 +54,7 @@ public abstract class AbstractDataService<T extends Claim> implements DataServic
 
     @Override
     public void saveClaim(T claim) {
-        this.pendingSaves.remove(claim);
+        this.pendingSaves.remove(claim.id());
         this.ioService.writeClaim(claim);
     }
 
@@ -82,7 +82,7 @@ public abstract class AbstractDataService<T extends Claim> implements DataServic
 
     @Override
     public void markDirty(@NonNull T claim) {
-        this.pendingSaves.add(claim);
+        this.pendingSaves.add(claim.id());
     }
 
     @Override
@@ -90,11 +90,14 @@ public abstract class AbstractDataService<T extends Claim> implements DataServic
         if (this.pendingSaves.isEmpty()) return;
 
         // Drain the queue safely
-        Set<T> toSave = new HashSet<>(this.pendingSaves);
+        Set<Identifier> toSave = new HashSet<>(this.pendingSaves);
         this.pendingSaves.removeAll(toSave);
 
-        for (T claim : toSave) {
-            this.ioService.writeClaim(claim);
+        for (Identifier id : toSave) {
+            T claim = this.repository.get(id);
+            if (claim != null) {
+                this.ioService.writeClaim(claim);
+            }
         }
     }
 
