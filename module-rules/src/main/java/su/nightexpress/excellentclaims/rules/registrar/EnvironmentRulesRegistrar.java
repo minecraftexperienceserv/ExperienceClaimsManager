@@ -1,5 +1,6 @@
 package su.nightexpress.excellentclaims.rules.registrar;
 
+import su.nightexpress.excellentclaims.rules.impl.environment.LightningDamageRule;
 import su.nightexpress.excellentclaims.rules.impl.environment.block.ExplosionDamageBlocksRule;
 import su.nightexpress.excellentclaims.rules.impl.environment.block.FireDamageBlocksRule;
 import su.nightexpress.excellentclaims.rules.impl.environment.block.fade.LeavesDecayRule;
@@ -14,5 +15,6 @@ public final class EnvironmentRulesRegistrar {
         loader.addRuleSpec("explosion_damage_blocks", new ExplosionDamageBlocksRule());
         loader.addRuleSpec("fire_damage_blocks", new FireDamageBlocksRule());
         loader.addRuleSpec("leaves_decay", new LeavesDecayRule());
+        loader.addRuleSpec("lightning_damage", new LightningDamageRule());
     }
 }

@@ -16,6 +16,7 @@ import su.nightexpress.excellentclaims.rules.evaluation.controller.block.BlockGr
 import su.nightexpress.excellentclaims.rules.evaluation.controller.block.StructureGrowController;
 import su.nightexpress.excellentclaims.rules.evaluation.controller.entity.EntityChangeBlockController;
 import su.nightexpress.excellentclaims.rules.evaluation.controller.entity.EntitySpawnController;
+import su.nightexpress.excellentclaims.rules.evaluation.controller.environment.LightningStrikeController;
 import su.nightexpress.excellentclaims.rules.evaluation.controller.player.BlockEntityBreakController;
 import su.nightexpress.excellentclaims.rules.evaluation.controller.player.BlockEntityPlaceController;
 import su.nightexpress.excellentclaims.rules.evaluation.controller.player.BlockFertilizeController;
@@ -49,8 +50,8 @@ public class EventControllerService {
         controllers.add(new BlockFadeController(this.engine));
         controllers.add(new BlockExplodeController(this.engine));
         controllers.add(new BlockBurnController(this.engine));
-        //controllers.add(new LeavesDecayController(this.engine));
         controllers.add(new StructureGrowController(this.engine));
+        controllers.add(new LightningStrikeController(this.engine));
 
         if (this.settings.isAllowHighFrequencyRules()) {
             controllers.add(new BlockFromToController(this.engine));
