@@ -31,7 +31,7 @@ public class BlockInteractFilterRule extends AbstractFilterSpec<BlockInteractCon
         Material.BELL, Material.CAMPFIRE,
         Material.SOUL_CAMPFIRE, Material.CHISELED_BOOKSHELF, Material.COMPOSTER,
         Material.DECORATED_POT, Material.END_PORTAL_FRAME, Material.FLETCHING_TABLE,
-        Material.FLOWER_POT, Material.JUKEBOX, Material.LODESTONE,
+        Material.JUKEBOX, Material.LODESTONE,
         Material.SPAWNER, Material.RESPAWN_ANCHOR, Material.SUSPICIOUS_GRAVEL,
         Material.SUSPICIOUS_SAND, Material.TNT, Material.TRIAL_SPAWNER,
         Material.VAULT, Material.CRAFTER, Material.DAYLIGHT_DETECTOR,
@@ -75,7 +75,8 @@ public class BlockInteractFilterRule extends AbstractFilterSpec<BlockInteractCon
             .allValues(() -> GENERIC_BLOCKS)
             .shouldHandle(context -> GENERIC_BLOCKS.contains(context.block().getType()))
             .process(
-                new StandardPlayerInteractBlockHandler<FilteredSet<Material>>(this.permissions, ClaimPermission.BLOCK_INTERACT) {
+                new StandardPlayerInteractBlockHandler<FilteredSet<Material>>(this.permissions,
+                    ClaimPermission.BLOCK_INTERACT) {
 
                     @Override
                     protected boolean isBlockAllowed(Material type, FilteredSet<Material> blockList) {

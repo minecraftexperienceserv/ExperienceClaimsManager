@@ -16,6 +16,7 @@ import su.nightexpress.excellentclaims.rules.impl.player.block.UseCakesRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseCauldronsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseDoorsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UsePlatesRule;
+import su.nightexpress.excellentclaims.rules.impl.player.block.UsePotsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseSignsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseTripwireRule;
 import su.nightexpress.excellentclaims.rules.load.RuleLoader;
@@ -43,6 +44,7 @@ public final class PlayerBlockRulesRegistrar {
         loader.addRuleSpec("use_cauldrons", new UseCauldronsRule(permissions));
         loader.addRuleSpec("use_doors", new UseDoorsRule(permissions));
         loader.addRuleSpec("use_plates", new UsePlatesRule(permissions));
+        loader.addRuleSpec("use_pots", new UsePotsRule(permissions));
         loader.addRuleSpec("use_signs", new UseSignsRule(permissions));
         loader.addRuleSpec("use_tripwire", new UseTripwireRule(permissions));
     }
