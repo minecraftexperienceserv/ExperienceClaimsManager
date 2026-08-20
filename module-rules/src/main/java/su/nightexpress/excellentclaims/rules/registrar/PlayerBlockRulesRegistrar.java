@@ -14,6 +14,7 @@ import su.nightexpress.excellentclaims.rules.impl.player.block.UseBedsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseButtonsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseCakesRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseCauldronsRule;
+import su.nightexpress.excellentclaims.rules.impl.player.block.UseCopperGolemStatuesRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UseDoorsRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UsePlatesRule;
 import su.nightexpress.excellentclaims.rules.impl.player.block.UsePotsRule;
@@ -42,6 +43,7 @@ public final class PlayerBlockRulesRegistrar {
         loader.addRuleSpec("use_buttons", new UseButtonsRule(permissions));
         loader.addRuleSpec("use_cakes", new UseCakesRule(permissions));
         loader.addRuleSpec("use_cauldrons", new UseCauldronsRule(permissions));
+        loader.addRuleSpec("use_copper_golem_statues", new UseCopperGolemStatuesRule(permissions));
         loader.addRuleSpec("use_doors", new UseDoorsRule(permissions));
         loader.addRuleSpec("use_plates", new UsePlatesRule(permissions));
         loader.addRuleSpec("use_pots", new UsePotsRule(permissions));
