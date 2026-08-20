@@ -41,7 +41,7 @@ public class BlockFertilizeRule extends SimpleSpec<BlockFertilizeContext, Boolea
                 Claim claim = registry.getPrioritizedClaim(blockState.getLocation());
                 if (claim == null) return RuleResult.allow();
 
-                if (this.permissions.hasPermission(player, claim, ClaimPermission.BUILDING)) {
+                if (player != null && this.permissions.hasPermission(player, claim, ClaimPermission.BUILDING)) {
                     return RuleResult.allow();
                 }
 

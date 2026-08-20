@@ -40,9 +40,11 @@ public class BlockFertilizeController extends AbstractEventController {
         if (this.engine.evaluate(context).state() == EventState.DENY) {
             event.setCancelled(true);
 
-            this.dispatcher.send(RulesLang.PROTECTION_BLOCK_FERTILIZE, player, ctx -> ctx
-                .with(CommonPlaceholders.GENERIC_VALUE, () -> LangUtil.getSerializedName(sourceState.getType()))
-            );
+            if (player != null) {
+                this.dispatcher.send(RulesLang.PROTECTION_BLOCK_FERTILIZE, player, ctx -> ctx
+                    .with(CommonPlaceholders.GENERIC_VALUE, () -> LangUtil.getSerializedName(sourceState.getType()))
+                );
+            }
             return;
         }
 
@@ -57,9 +59,11 @@ public class BlockFertilizeController extends AbstractEventController {
         if (affectedBlocks.isEmpty()) {
             event.setCancelled(true);
 
-            this.dispatcher.send(RulesLang.PROTECTION_BLOCK_FERTILIZE, player, ctx -> ctx
-                .with(CommonPlaceholders.GENERIC_VALUE, () -> LangUtil.getSerializedName(sourceState.getType()))
-            );
+            if (player != null) {
+                this.dispatcher.send(RulesLang.PROTECTION_BLOCK_FERTILIZE, player, ctx -> ctx
+                    .with(CommonPlaceholders.GENERIC_VALUE, () -> LangUtil.getSerializedName(sourceState.getType()))
+                );
+            }
         }
     }
 }
