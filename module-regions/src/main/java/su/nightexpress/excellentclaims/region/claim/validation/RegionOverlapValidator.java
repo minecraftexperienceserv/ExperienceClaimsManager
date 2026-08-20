@@ -62,6 +62,8 @@ public class RegionOverlapValidator {
     }
 
     private boolean canOverlapWith(Player player, Claim with) {
+        if (with.isBackgroundClaim()) return true;
+
         String withModuleId = with.getModuleKey().value();
 
         boolean allowed = this.settings.getAllowedOverlappingTypes().contains(withModuleId);
@@ -71,6 +73,6 @@ public class RegionOverlapValidator {
             return ownable.isOwner(player);
         }
 
-        return with.isBackgroundClaim();
+        return false;
     }
 }
