@@ -59,14 +59,17 @@ public abstract class AbstractDataService<T extends Claim> implements DataServic
     }
 
     @Override
-    public @Nullable T getClaim(Identifier id) {
-        return this.repository.get(id);
+    public void editWithReindex(T claim, Runnable editAction) {
+        this.repository.remove(claim); // Clear current index to avoid duplicates
+        editAction.run();
+        this.repository.register(claim); // Reindex claim with updated chunk positions
+
+        this.markDirty(claim);
     }
 
     @Override
-    @Deprecated
-    public void updateClaim(T claim) {
-        this.repository.reindex(claim);
+    public @Nullable T getClaim(Identifier id) {
+        return this.repository.get(id);
     }
 
     @Override

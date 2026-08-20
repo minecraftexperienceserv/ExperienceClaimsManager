@@ -71,13 +71,12 @@ public class LandOwnershipService {
 
         Rank rank = this.ranksAPI.getRanks().getLowestRank(); // TODO getDefaultRole()
 
-        claim.removeMember(target);
-        claim.addMember(new DefaultClaimMember(player, rank.id()));
-        claim.removeOwner(player);
-        claim.addOwner(target);
-
-        this.dataService.markDirty(claim);
-        this.dataService.updateClaim(claim);
+        this.dataService.editWithReindex(claim, () -> {
+            claim.removeMember(target);
+            claim.addMember(new DefaultClaimMember(player, rank.id()));
+            claim.removeOwner(player);
+            claim.addOwner(target);
+        });
 
         return ActionResult.ok(OwnershipLang.TRANSFER_SUCCESS, ctx -> ctx
             .with(claim.placeholders())

@@ -18,10 +18,9 @@ public interface DataService<T extends Claim> extends DirtyFlagger<T> {
     @Nullable
     T getClaim(Identifier id);
 
-    @Deprecated
-    void updateClaim(T claim);
-
     void saveClaim(T claim);
+
+    void editWithReindex(T claim, Runnable editAction);
 
     void deleteClaim(T claim);
 

@@ -73,10 +73,7 @@ public class MergeService {
             return ActionResult.fail(); // TODO Messsage
         }
 
-        source.getChunkData().removeChunkPosition(chunkPos);
-
-        this.dataService.markDirty(source);
-        this.dataService.updateClaim(source);
+        this.dataService.removeChunkPosition(source, chunkPos);
 
         World world = player.getWorld();
         Identifier id = LandIDUtil.generateId(player, chunkPos);
@@ -128,12 +125,12 @@ public class MergeService {
             return ActionResult.fail(); // TODO
         }
 
-        source.getMembers().forEach(target::addMember);
-        target.getChunkData().getChunkPositions().addAll(source.getPositions());
+        this.dataService.editWithReindex(target, () -> {
+            source.getMembers().forEach(target::addMember);
+            target.getChunkData().getChunkPositions().addAll(source.getPositions());
+        });
 
-        this.dataService.markDirty(target);
         this.dataService.deleteClaim(source);
-        this.dataService.updateClaim(target);
 
         LandClaimMergedEvent mergedEvent = new LandClaimMergedEvent(source, player, target);
         this.plugin.getPluginManager().callEvent(mergedEvent);

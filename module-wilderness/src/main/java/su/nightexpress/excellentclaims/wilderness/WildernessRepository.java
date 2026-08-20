@@ -243,13 +243,6 @@ public class WildernessRepository implements ClaimRepository<WildernessRegion> {
     }
 
     @Override
-    @Deprecated
-    public void reindex(WildernessRegion region) {
-        this.remove(region);
-        this.register(region);
-    }
-
-    @Override
     public @Nullable WildernessRegion remove(WildernessRegion region) {
         WildernessRegion removed = this.regionsById.remove(region.id());
         this.regionsByWorld.remove(region.getWorldKey());

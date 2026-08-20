@@ -24,9 +24,6 @@ import su.nightexpress.nightcore.util.geodata.pos.ChunkPos;
 @NullMarked
 public interface ClaimRepository<T extends Claim> {
 
-    @Deprecated
-    void reindex(@NonNull T claim);
-
     void register(@NonNull T item);
 
     @Nullable

@@ -42,19 +42,11 @@ public class LandDataService extends AbstractDataService<LandClaim> {
     }
 
     public void addChunkPosition(LandClaim claim, ChunkPos chunkPos) {
-        this.repository.remove(claim); // Clear current index to avoid duplicates
-        claim.getChunkData().addChunkPosition(chunkPos);
-        this.repository.register(claim); // Reindex claim with new chunk position
-
-        this.markDirty(claim);
+        this.editWithReindex(claim, () -> claim.getChunkData().addChunkPosition(chunkPos));
     }
 
     public void removeChunkPosition(LandClaim claim, ChunkPos chunkPos) {
-        this.repository.remove(claim); // Clear current index to avoid duplicates
-        claim.getChunkData().removeChunkPosition(chunkPos);
-        this.repository.register(claim); // Reindex claim with updated chunk positions
-
-        this.markDirty(claim);
+        this.editWithReindex(claim, () -> claim.getChunkData().removeChunkPosition(chunkPos));
     }
 
     public boolean isChunkClaimed(World world, ChunkPos chunkPos) {
