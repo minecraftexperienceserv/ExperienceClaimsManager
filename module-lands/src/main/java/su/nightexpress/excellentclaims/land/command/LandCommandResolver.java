@@ -3,6 +3,7 @@ package su.nightexpress.excellentclaims.land.command;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import su.nightexpress.excellentclaims.api.claim.ClaimRepository;
 import su.nightexpress.excellentclaims.land.data.model.LandClaim;
@@ -23,14 +24,30 @@ public class LandCommandResolver {
 
     /**
      * Resolves a LandClaim from the argument, falling back to the player's location.
+     * Returns null if no claim can be found.
+     * 
+     * @param arguments The parsed command arguments.
+     * @param argName   The name of the argument to resolve.
+     * @return The resolved LandClaim, or null if not found.
+     */
+    public @Nullable LandClaim resolveFromArgument(ParsedArguments arguments, String argName) {
+        if (arguments.contains(argName)) {
+            return arguments.get(argName, LandClaim.class);
+        }
+        return null;
+    }
+
+    /**
+     * Resolves a LandClaim from the argument, falling back to the player's location.
      * Throws an exception if no claim can be found, halting the command automatically.
      */
     public LandClaim resolveTarget(CommandContext context,
                                    ParsedArguments arguments,
                                    String argName) throws CommandSyntaxException {
 
-        if (arguments.contains(argName)) {
-            return arguments.get(argName, LandClaim.class);
+        LandClaim claim = this.resolveFromArgument(arguments, argName);
+        if (claim != null) {
+            return claim;
         }
 
         Player player = context.getPlayer();

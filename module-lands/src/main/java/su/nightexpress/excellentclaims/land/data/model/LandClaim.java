@@ -17,6 +17,7 @@ import su.nightexpress.excellentclaims.api.land.LandChunks;
 import su.nightexpress.excellentclaims.core.claim.base.AbstractOwnedClaim;
 import su.nightexpress.excellentclaims.core.util.ChunkUtil;
 import su.nightexpress.excellentclaims.land.LandsPlaceholders;
+import su.nightexpress.excellentclaims.land.util.LandUtils;
 import su.nightexpress.nightcore.util.geodata.Cuboid;
 import su.nightexpress.nightcore.util.geodata.pos.BlockPos;
 import su.nightexpress.nightcore.util.geodata.pos.ChunkPos;
@@ -39,6 +40,17 @@ public class LandClaim extends AbstractOwnedClaim implements Land {
     @Override
     public PlaceholderResolver placeholders() {
         return LandsPlaceholders.LAND.resolver(this);
+    }
+
+    @Override
+    public boolean isAdjacentTo(ChunkPos targetChunk) {
+        for (ChunkPos currentChunk : this.getPositions()) {
+            if (LandUtils.areChunksConnected(currentChunk, targetChunk)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

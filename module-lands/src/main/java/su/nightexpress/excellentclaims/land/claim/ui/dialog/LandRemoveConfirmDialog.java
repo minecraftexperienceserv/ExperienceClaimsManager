@@ -5,7 +5,6 @@ import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.GREE
 import static su.nightexpress.nightcore.util.text.night.wrapper.TagWrappers.RED;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NullMarked;
 
 import su.nightexpress.excellentclaims.land.claim.LandClaimService;
@@ -37,7 +36,7 @@ public class LandRemoveConfirmDialog extends Dialog<LandClaim> {
     private static final ButtonLocale BUTTON_YES = LangEntry.builder("Lands.Dialog.RemoveConfirm.Button.Yes")
         .button(RED.and(BOLD).wrap("✔ Yes"), "Land will be permanently removed with no undo.");
 
-    private static final ButtonLocale BUTTON_NO = LangEntry.builder("Lands.Dialog.RemoveConfirm.Button.Yes")
+    private static final ButtonLocale BUTTON_NO = LangEntry.builder("Lands.Dialog.RemoveConfirm.Button.No")
         .button(GREEN.and(BOLD).wrap("✘ No"), "Cancel land removal.");
 
     private static final String JSON_YES = "yes";
@@ -46,12 +45,12 @@ public class LandRemoveConfirmDialog extends Dialog<LandClaim> {
     private final LandClaimService claimService;
 
     public LandRemoveConfirmDialog(LandClaimService claimService) {
+        super();
         this.claimService = claimService;
     }
 
     @Override
-    @NotNull
-    public WrappedDialog create(@NotNull Player player, LandClaim claim) {
+    public WrappedDialog create(Player player, LandClaim claim) {
         return Dialogs.create(builder -> builder
             .base(DialogBases.builder(TITLE)
                 .body(DialogBodies.plainMessage(BODY))
@@ -62,7 +61,7 @@ public class LandRemoveConfirmDialog extends Dialog<LandClaim> {
                 DialogButtons.action(BUTTON_NO).action(DialogActions.customClick(JSON_NO)).build()
             ))
             .handleResponse(JSON_YES, (viewer, identifier, nbtHolder) -> {
-                this.claimService.unclaimChunk(player, claim);
+                this.claimService.removeClaim(player, claim);
 
                 viewer.callback();
             })

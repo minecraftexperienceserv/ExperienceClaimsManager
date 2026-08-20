@@ -11,6 +11,8 @@ import su.nightexpress.nightcore.util.geodata.pos.ChunkPos;
 @NullMarked
 public interface Land extends OwnableClaim {
 
+    boolean isAdjacentTo(ChunkPos chunkPos);
+
     boolean contains(ChunkPos chunkPos);
 
     boolean isMerged();

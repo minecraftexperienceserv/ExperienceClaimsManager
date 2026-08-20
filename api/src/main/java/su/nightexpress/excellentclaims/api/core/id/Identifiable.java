@@ -10,4 +10,8 @@ public interface Identifiable {
     default Identifier id() {
         return this.getId();
     }
+
+    default String idValue() {
+        return this.getId().value();
+    }
 }

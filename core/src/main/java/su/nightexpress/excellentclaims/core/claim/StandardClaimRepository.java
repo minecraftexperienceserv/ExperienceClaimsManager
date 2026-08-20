@@ -234,6 +234,7 @@ public class StandardClaimRepository<T extends OwnableClaim> extends Identifiabl
     }
 
     @Override
+    @Deprecated
     public void reindex(@NonNull T claim) {
         this.remove(claim);
         this.register(claim);

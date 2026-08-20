@@ -6,6 +6,8 @@ import su.nightexpress.excellentclaims.api.core.DependencyContainer;
 import su.nightexpress.excellentclaims.api.core.EventPublisher;
 import su.nightexpress.excellentclaims.land.LandsModule;
 import su.nightexpress.excellentclaims.land.claim.command.ClaimCommand;
+import su.nightexpress.excellentclaims.land.claim.command.CreateCommand;
+import su.nightexpress.excellentclaims.land.claim.command.RemoveCommand;
 import su.nightexpress.excellentclaims.land.claim.command.UnclaimCommand;
 import su.nightexpress.excellentclaims.land.claim.ui.dialog.ClaimingDialogKeys;
 import su.nightexpress.excellentclaims.land.claim.ui.dialog.LandRemoveConfirmDialog;
@@ -28,7 +30,8 @@ public final class LandClaimConfiguration {
         LandActionValidator actionValidator = container.get(LandActionValidator.class);
         LandBillingService billingService = container.getOrNull(LandBillingService.class);
 
-        LandClaimService claimService = new LandClaimService(eventPublisher, settings, dataService, actionValidator, billingService);
+        LandClaimService claimService = new LandClaimService(eventPublisher, settings, dataService, actionValidator,
+            billingService);
 
         container.register(LandClaimService.class, claimService);
 
@@ -43,7 +46,9 @@ public final class LandClaimConfiguration {
         LandCommandSuggestions suggestions = container.get(LandCommandSuggestions.class);
         MessageDispatcher messages = container.get(MessageDispatcher.class);
 
-        commands.registerCommand(new ClaimCommand(suggestions, service, messages));
+        commands.registerCommand(new CreateCommand(suggestions, service, messages));
+        commands.registerCommand(new RemoveCommand(suggestions, resolver, service, messages));
+        commands.registerCommand(new ClaimCommand(suggestions, resolver, service, messages));
         commands.registerCommand(new UnclaimCommand(suggestions, resolver, service, messages));
     }
 

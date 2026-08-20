@@ -64,6 +64,7 @@ public abstract class AbstractDataService<T extends Claim> implements DataServic
     }
 
     @Override
+    @Deprecated
     public void updateClaim(T claim) {
         this.repository.reindex(claim);
     }

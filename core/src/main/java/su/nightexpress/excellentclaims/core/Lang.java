@@ -26,6 +26,8 @@ public class Lang implements LangContainer {
 
     public static final TextLocale OTHER_UNSET      = LangEntry.builder("Other.Unset").text("< Unset >");
     public static final TextLocale OTHER_EVERYTHING = LangEntry.builder("Other.Everything").text("Everything");
+    public static final TextLocale OTHER_DELIMITER  = LangEntry.builder("Other.Delimiter")
+        .text(TagWrappers.GRAY.wrap(", "));
 
     public static final TextLocale PLACEHOLDER_NO_CLAIM = LangEntry.builder("Other.NoClaim").text("< No Claim >");
 
@@ -37,12 +39,6 @@ public class Lang implements LangContainer {
             CommonPlaceholders.GENERIC_NAME,
             TagWrappers.GRAY.wrap(ClaimsPlaceholders.GENERIC_DESCRIPTION),
             10, 40
-        );
-
-    public static final MessageLocale ERROR_NOT_CLAIM_OWNER = LangEntry.builder("Error.NotOwner")
-        .chatMessage(
-            Sound.ENTITY_VILLAGER_NO,
-            TagWrappers.GRAY.wrap("Only claim owner can do that.")
         );
 
     public static final MessageLocale ERROR_NO_CLAIM_PERMISSION = LangEntry.builder("Core.Error.NoClaimPermission")

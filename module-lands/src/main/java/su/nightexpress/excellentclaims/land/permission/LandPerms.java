@@ -13,6 +13,8 @@ public final class LandPerms {
 
     public static final Permission COMMAND_LAND             = COMMAND.create("land");
     public static final Permission COMMAND_LAND_BORDERS     = COMMAND.create("land.borders");
+    public static final Permission COMMAND_LAND_CREATE      = COMMAND.create("land.create");
+    public static final Permission COMMAND_LAND_REMOVE      = COMMAND.create("land.remove");
     public static final Permission COMMAND_LAND_CLAIM       = COMMAND.create("land.claim");
     public static final Permission COMMAND_LAND_UNCLAIM     = COMMAND.create("land.unclaim");
     public static final Permission COMMAND_LAND_RULES       = COMMAND.create("land.rules");

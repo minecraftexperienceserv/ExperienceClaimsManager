@@ -6,9 +6,11 @@ import org.jspecify.annotations.NullMarked;
 
 import su.nightexpress.excellentclaims.api.MessageDispatcher;
 import su.nightexpress.excellentclaims.api.command.CommandExtension;
-import su.nightexpress.excellentclaims.api.service.ActionResult;
+import su.nightexpress.excellentclaims.api.service.FeedbackHandler;
 import su.nightexpress.excellentclaims.land.claim.LandClaimService;
+import su.nightexpress.excellentclaims.land.command.LandCommandResolver;
 import su.nightexpress.excellentclaims.land.command.LandCommandSuggestions;
+import su.nightexpress.excellentclaims.land.data.model.LandClaim;
 import su.nightexpress.excellentclaims.land.lang.LandLang;
 import su.nightexpress.excellentclaims.land.permission.LandPerms;
 import su.nightexpress.nightcore.commands.Arguments;
@@ -17,22 +19,31 @@ import su.nightexpress.nightcore.commands.context.CommandContext;
 import su.nightexpress.nightcore.commands.context.ParsedArguments;
 import su.nightexpress.nightcore.commands.tree.ExecutableNode;
 import su.nightexpress.nightcore.core.config.CoreLang;
+import su.nightexpress.nightcore.util.geodata.pos.ChunkPos;
 
 @NullMarked
-public class ClaimCommand implements CommandExtension {
+public class ClaimCommand implements CommandExtension, FeedbackHandler {
 
     private static final String ARG_NAME = "name";
 
     private final LandCommandSuggestions suggestions;
+    private final LandCommandResolver    resolver;
     private final LandClaimService       claimService;
     private final MessageDispatcher      dispatcher;
 
     public ClaimCommand(LandCommandSuggestions suggestions,
+                        LandCommandResolver resolver,
                         LandClaimService claimService,
                         MessageDispatcher dispatcher) {
         this.suggestions = suggestions;
+        this.resolver = resolver;
         this.claimService = claimService;
         this.dispatcher = dispatcher;
+    }
+
+    @Override
+    public MessageDispatcher getDispatcher() {
+        return this.dispatcher;
     }
 
     @Override
@@ -41,25 +52,23 @@ public class ClaimCommand implements CommandExtension {
             .playerOnly()
             .description(LandLang.COMMAND_LAND_CLAIM_DESC)
             .permission(LandPerms.COMMAND_LAND_CLAIM)
-            .withArguments(Arguments.string(ARG_NAME)
+            .withArguments(Arguments.argument(ARG_NAME, LandClaim.class)
                 .optional()
                 .localized(CoreLang.COMMAND_ARGUMENT_NAME_NAME)
                 .suggestions(this.suggestions.ownerOnly())
             )
-            .executes(this::claimLand)
+            .executes(this::run)
         );
     }
 
-    private boolean claimLand(CommandContext context, ParsedArguments arguments) {
+    private boolean run(CommandContext context, ParsedArguments arguments) {
         Player player = context.getPlayerOrThrow();
         Location location = player.getLocation();
         if (location == null) return false;
 
-        String name = arguments.contains(ARG_NAME) ? arguments.getString(ARG_NAME) : null;
-        ActionResult result = this.claimService.claimLand(player, location, name);
+        LandClaim claim = arguments.contains(ARG_NAME) ? this.resolver.resolveFromArgument(arguments, ARG_NAME) : null;
+        ChunkPos targetChunk = ChunkPos.from(location);
 
-        return result.handleFeedback((locale, extra) -> {
-            this.dispatcher.send(locale, player, builder -> builder.apply(extra));
-        });
+        return this.handleFeedback(player, this.claimService.claimChunk(player, targetChunk, claim));
     }
 }

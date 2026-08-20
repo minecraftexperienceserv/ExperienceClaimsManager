@@ -20,11 +20,17 @@ public class LandLang implements LangContainer {
     public static final TextLocale COMMAND_LAND_DESC = LangEntry.builder("Lands.Command.Land.Desc")
         .text("Land claim commands.");
 
+    public static final TextLocale COMMAND_LAND_CREATE_DESC = LangEntry.builder("Lands.Command.Land.Create.Desc")
+        .text("Create new land claim.");
+
+    public static final TextLocale COMMAND_LAND_REMOVE_DESC = LangEntry.builder("Lands.Command.Land.Remove.Desc")
+        .text("Remove land claim.");
+
     public static final TextLocale COMMAND_LAND_CLAIM_DESC = LangEntry.builder("Lands.Command.Land.Claim.Desc")
-        .text("Claim chunk.");
+        .text("Claim a chunk to a land claim.");
 
     public static final TextLocale COMMAND_LAND_UNCLAIM_DESC = LangEntry.builder("Lands.Command.Land.Unclaim.Desc")
-        .text("Unclaim chunk.");
+        .text("Unclaim a chunk from a land claim.");
 
     public static final TextLocale COMMAND_LAND_RULES_DESC = LangEntry.builder("Lands.Command.Land.Rules.Desc")
         .text("Open Rules GUI.");
@@ -56,7 +62,7 @@ public class LandLang implements LangContainer {
 
     public static final TextLocale COMMAND_LAND_SET_PRIORITY_DESC = LangEntry.builder(
         "Lands.Command.Land.SetPriority.Desc")
-        .text("Set claim priorty.");
+        .text("Set claim priority.");
 
     public static final MessageLocale COMMAND_SYNTAX_INVALID_LAND_CLAIM = LangEntry
         .builder("Lands.Command.Syntax.InvalidLandClaim")
@@ -69,7 +75,7 @@ public class LandLang implements LangContainer {
         .builder("Lands.Error.NoLandClaimInLocation")
         .chatMessage(
             Sound.ENTITY_VILLAGER_NO,
-            TagWrappers.GRAY.wrap("There is no land claim(s) at your location.")
+            TagWrappers.GRAY.wrap("There are no land claim(s) at your location.")
         );
 
     public static final MessageLocale ERROR_LAND_DISABLED = LangEntry.builder("Lands.Error.LandDisabled")
@@ -90,7 +96,7 @@ public class LandLang implements LangContainer {
                 TagWrappers.GREEN.wrap(LandsPlaceholders.LAND_NAME) + " spawn point.")
         );
 
-    public static final MessageLocale LAND_TELEPORT_CANCELLED = LangEntry.builder("Claim.Teleport.Cancelled")
+    public static final MessageLocale LAND_TELEPORT_CANCELLED = LangEntry.builder("Lands.Teleport.Cancelled")
         .chatMessage(
             Sound.ENTITY_VILLAGER_NO,
             TagWrappers.GRAY.wrap("The teleport was interrupted.")
@@ -106,6 +112,40 @@ public class LandLang implements LangContainer {
             TagWrappers.GRAY.wrap("You have toggled chunk borders " + TagWrappers.RED.wrap("OFF") + ".")
         );
 
+    public static final MessageLocale CREATION_SUCCESS = LangEntry.builder("Lands.Creation.Success")
+        .chatMessage(
+            Sound.ENTITY_PLAYER_LEVELUP,
+            TagWrappers.GRAY.wrap("You have successfully created a new claim with name " +
+                TagWrappers.GREEN.wrap(LandsPlaceholders.LAND_NAME) + "!"),
+            "",
+            "Use " + TagWrappers.GREEN.wrap("/land claim") + " to claim chunks for your new land claim."
+        );
+
+    public static final MessageLocale CREATION_ALREADY_EXISTS = LangEntry.builder("Lands.Creation.AlreadyExists")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("There is already a claim with this name.")
+        );
+
+    public static final MessageLocale CREATION_DENIED = LangEntry.builder("Lands.Creation.Denied")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("A claim creation was denied by an external factor.")
+        );
+
+    public static final MessageLocale CLAIM_REMOVAL_SUCCESS = LangEntry.builder("Lands.Claim.Removal.Success")
+        .chatMessage(
+            Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR,
+            TagWrappers.GRAY.wrap("You have successfully removed " +
+                TagWrappers.GREEN.wrap(LandsPlaceholders.LAND_NAME) + " claim!")
+        );
+
+    public static final MessageLocale CLAIM_REMOVAL_DENIED = LangEntry.builder("Lands.Claim.Removal.Denied")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("A claim removal was denied by an external factor.")
+        );
+
     public static final MessageLocale CLAIMING_SUCCESS = LangEntry.builder("Lands.Claim.Success")
         .chatMessage(
             Sound.ENTITY_PLAYER_LEVELUP,
@@ -119,6 +159,34 @@ public class LandLang implements LangContainer {
             TagWrappers.GRAY.wrap("You can't claim chunks here.")
         );
 
+    public static final MessageLocale CLAIMING_NO_LANDS_CREATED = LangEntry.builder("Lands.Claim.NoLandsCreated")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("You don't have any land claims created yet. Use " +
+                TagWrappers.RED.wrap("/land create") + " to create your first land claim.")
+        );
+
+    public static final MessageLocale CLAIMING_MULTIPLE_LANDS_IN_LOCATION = LangEntry
+        .builder("Lands.Claim.MultipleLandClaimsInLocation")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("There are multiple land claims at your location. Please specify the claim name: " +
+                TagWrappers.RED.wrap(CommonPlaceholders.GENERIC_NAME) + ".")
+        );
+
+    public static final MessageLocale CLAIMING_DIFFERENT_WORLD = LangEntry.builder("Lands.Claim.DifferentWorld")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("You can't claim chunks in a different world than your land claim: " +
+                TagWrappers.RED.wrap(CommonPlaceholders.GENERIC_NAME) + ".")
+        );
+
+    public static final MessageLocale CLAIMING_CHUNK_NOT_ADJACENT = LangEntry.builder("Lands.Claim.ChunkNotAdjacent")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("You can only claim chunks that are adjacent to your existing claim(s).")
+        );
+
     public static final MessageLocale CLAIMING_INVALID_NAME = LangEntry.builder("Lands.Claim.InvalidName")
         .chatMessage(
             Sound.ENTITY_VILLAGER_NO,
@@ -128,7 +196,7 @@ public class LandLang implements LangContainer {
     public static final MessageLocale CLAIMING_ALREADY_OCCUPIED = LangEntry.builder("Lands.Claim.AlreadyOccupied")
         .chatMessage(
             Sound.ENTITY_VILLAGER_NO,
-            TagWrappers.GRAY.wrap("This chunk is already claimed by other player.")
+            TagWrappers.GRAY.wrap("This chunk is already claimed.")
         );
 
     public static final MessageLocale CLAIMING_ALREADY_CLAIMED = LangEntry
@@ -139,7 +207,7 @@ public class LandLang implements LangContainer {
                 TagWrappers.RED.wrap(LandsPlaceholders.LAND_NAME) + " claim.")
         );
 
-    public static final MessageLocale CLAIMING_LAND_QOUTA = LangEntry.builder("Lands.Claim.LandQuota")
+    public static final MessageLocale CREATION_QUOTA_EXCEEDED = LangEntry.builder("Lands.Creation.QuotaExceeded")
         .chatMessage(
             Sound.ENTITY_VILLAGER_NO,
             TagWrappers.GRAY.wrap("You already has maximum of " +
@@ -181,6 +249,33 @@ public class LandLang implements LangContainer {
         .chatMessage(
             Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR,
             TagWrappers.GRAY.wrap("You have successfully unclaimed this chunk.")
+        );
+
+    public static final MessageLocale UNCLAIMING_DIFFERENT_WORLD = LangEntry.builder("Lands.Unclaim.DifferentWorld")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("You can't unclaim chunks in a different world than your land claim: " +
+                TagWrappers.RED.wrap(CommonPlaceholders.GENERIC_NAME) + ".")
+        );
+
+    public static final MessageLocale UNCLAIMING_CHUNK_NOT_CLAIMED = LangEntry.builder("Lands.Unclaim.ChunkNotClaimed")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("This chunk is not claimed by your claim.")
+        );
+
+    public static final MessageLocale UNCLAIMING_LAST_CHUNK = LangEntry.builder("Lands.Unclaim.LastChunk")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap("You can't unclaim this chunk because it is the last chunk of your claim.")
+        );
+
+    public static final MessageLocale UNCLAIMING_CHUNK_WOULD_DISCONNECT = LangEntry
+        .builder("Lands.Unclaim.ChunkWouldDisconnect")
+        .chatMessage(
+            Sound.ENTITY_VILLAGER_NO,
+            TagWrappers.GRAY.wrap(
+                "You can't unclaim this chunk because it would disconnect your claim into multiple parts.")
         );
 
     public static final MessageLocale EDITOR_SET_NAME_SUCCESS = LangEntry.builder("Lands.Editor.SetName.Success")
